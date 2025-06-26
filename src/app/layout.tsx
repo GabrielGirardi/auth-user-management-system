@@ -1,7 +1,15 @@
+import { getSession } from "@/lib/auth";
+import { ConfirmDialogProvider } from "@/hooks/use-confirm-dialog";
+import { ReactQueryProvider } from "@/app/react-query-provider";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import { Toaster } from "@/components/ui/sonner";
+
+import Header from "@/layout/header";
+import Footer from "@/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,17 +26,25 @@ export const metadata: Metadata = {
   description: "Sistema para controle e gerenciamento de usuários",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession()
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ReactQueryProvider>
+          <Toaster />
+          <ConfirmDialogProvider />
+          {session && <Header />}
+          {children}
+          {session && <Footer />}
+        </ReactQueryProvider>
       </body>
     </html>
   );
