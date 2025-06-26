@@ -10,19 +10,16 @@ import { Eye, EyeClosed } from "lucide-react";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTogglePasswordVisibility = () => setShowPassword(prev => !prev);
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
-    setError("");
 
     const result = await loginAction(formData);
 
     if (result?.error) {
-      setError(result.error);
       const isInvalid = result.error === "Invalid credentials";
       toast.error(
         isInvalid ? "Credenciais inválidas" : "Erro ao fazer login",
