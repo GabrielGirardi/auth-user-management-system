@@ -10,7 +10,13 @@ export async function getDashboardData() {
       totalUsers
     ] = await Promise.all([
       prisma.person.count(),
-      prisma.user.count(),
+      prisma.user.count({
+        where: {
+          email: {
+            not: "admin@teste.com.br",
+          },
+        },
+      }),
     ]);
 
     return {

@@ -17,10 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import {
-  Bell,
   User,
-  CircleUserRound,
-  LockKeyhole,
   LogOut
 } from "lucide-react";
 
@@ -28,7 +25,7 @@ interface DesktopHeaderProps {
   user: {
     name: string;
     role: string;
-  };
+  }
 }
 
 export default function DesktopHeader({ user }: DesktopHeaderProps) {
@@ -64,8 +61,6 @@ export default function DesktopHeader({ user }: DesktopHeaderProps) {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Bell className="w-5 h-5 cursor-pointer hover:text-gray-700 transition-colors" />
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-4 cursor-pointer px-4 border-l border-r hover:bg-gray-50 transition-colors">
@@ -85,14 +80,6 @@ export default function DesktopHeader({ user }: DesktopHeaderProps) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="text-gray-500 hover:text-gray-400 transition duration-500 cursor-pointer">
-                  <CircleUserRound />
-                  Meus Dados
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-gray-500 hover:text-gray-400 transition duration-500 cursor-pointer">
-                  <LockKeyhole />
-                  Alterar Senha
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-gray-500 hover:text-gray-400 transition duration-500 cursor-pointer"
                   onClick={logoutAction}

@@ -1,5 +1,5 @@
 import NoAuthGuard from "@/components/auth/no-auth-guard";
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginForm } from "./components/login-form";
 import {
   Card,
   CardHeader,

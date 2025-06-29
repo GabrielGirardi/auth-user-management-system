@@ -28,7 +28,7 @@ model User {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   validUntil DateTime? @default(dbgenerated("(now() + interval '1 year')"))
-  person     Person?   @relation(fields: [personId], references: [id])
+  person     Person?   @relation(fields: [personId], references: [id], onDelete: Restrict)
   personId   String?   @unique
 
   @@map("users")

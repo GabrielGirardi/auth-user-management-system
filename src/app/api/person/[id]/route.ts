@@ -60,6 +60,16 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "ID ausente na URL" }, { status: 400 });
   }
 
+  const linkedUser = await prisma.user.findUnique({
+    where: { personId: String(id) },
+  });
+
+  if (linkedUser) {
+    return new Response("Essa pessoa está vinculada a um usuário e não pode ser excluída.", {
+      status: 400,
+    });
+  }
+
   await prisma.person.delete({
     where: { id: String(id) },
   });

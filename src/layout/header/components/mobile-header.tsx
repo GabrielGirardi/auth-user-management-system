@@ -21,12 +21,9 @@ import {
 
 import {
   Menu,
-  Bell,
   Home,
   UserPlus,
-  CircleUserRound,
   Users,
-  LockKeyhole,
   LogOut
 } from "lucide-react";
 
@@ -34,7 +31,7 @@ interface MobileHeaderProps {
   user: {
     name: string;
     role: string;
-  };
+  }
 }
 
 export default function MobileHeader({ user }: MobileHeaderProps) {
@@ -51,8 +48,6 @@ export default function MobileHeader({ user }: MobileHeaderProps) {
       </div>
 
       <div className="flex items-center space-x-3">
-        <Bell className="w-5 h-5 cursor-pointer hover:text-gray-700 transition-colors" />
-
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="hover:bg-gray-100">
@@ -118,23 +113,6 @@ export default function MobileHeader({ user }: MobileHeaderProps) {
 
               <div className="space-y-2">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Conta</h3>
-
-                <button
-                  onClick={handleLinkClick}
-                  className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors w-full text-left"
-                >
-                  <CircleUserRound className="w-4 h-4" />
-                  Meus Dados
-                </button>
-
-                <button
-                  onClick={handleLinkClick}
-                  className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors w-full text-left"
-                >
-                  <LockKeyhole className="w-4 h-4" />
-                  Alterar Senha
-                </button>
-
                 <button
                   onClick={() => {
                     handleLinkClick()

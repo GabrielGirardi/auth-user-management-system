@@ -20,7 +20,13 @@ const prisma = new PrismaClient();
  * @returns Usuários em formato JSON.
  */
 export async function GET() {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    where: {
+      email: {
+        not: "admin@teste.com.br",
+      },
+    },
+  });
   return NextResponse.json(users);
 }
 

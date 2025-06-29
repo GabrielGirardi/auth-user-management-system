@@ -9,7 +9,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 import Header from "@/layout/header";
-import Footer from "@/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,7 +42,6 @@ export default async function RootLayout({
           <ConfirmDialogProvider />
           {session && <Header user={session.user} />}
           {children}
-          {session && <Footer />}
         </ReactQueryProvider>
       </body>
     </html>
