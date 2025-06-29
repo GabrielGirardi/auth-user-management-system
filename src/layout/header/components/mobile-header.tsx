@@ -16,8 +16,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-  SheetClose
+  SheetTrigger
 } from "@/components/ui/sheet";
 
 import {

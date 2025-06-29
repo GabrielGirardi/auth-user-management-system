@@ -87,10 +87,10 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
         {
           name,
           email,
-          password: password || undefined,
+          password: password,
           role,
           personId: person,
-          validUntil: validUntil ? new Date(validUntil).toISOString() : undefined,
+          validUntil: validUntil ? new Date(validUntil).toISOString() : "",
           isActive,
         },
         initialData?.id,

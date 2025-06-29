@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 
-export function useRole() {
-  const session = await getSession()
+export async function useRole() {
+  const session = await getSession();
   const role = session?.user?.role;
 
   return {

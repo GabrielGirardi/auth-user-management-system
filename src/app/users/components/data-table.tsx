@@ -104,9 +104,11 @@ export const schema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
+  role: z.enum(["ADMIN", "VIEWER"]),
   isActive: z.boolean(),
   createdAt: z.string(),
-  validUntil: z.string().optional(),
+  validUntil: z.string(),
+  personId: z.string(),
   person: z.object({
     id: z.string(),
     name: z.string(),
@@ -232,6 +234,18 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       return <TableCellViewer item={row.original} />
     },
     enableHiding: false,
+  },
+  {
+    accessorKey: "role",
+    header: "Cargo",
+    enableColumnFilter: true,
+    cell: ({ row }) => (
+      <div className="w-32">
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.role.charAt(0).toUpperCase() + row.original.role.slice(1)}
+        </Badge>
+      </div>
+    ),
   },
   {
     accessorKey: "email",

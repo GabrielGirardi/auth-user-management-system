@@ -41,7 +41,7 @@ export default async function RootLayout({
         <ReactQueryProvider>
           <Toaster />
           <ConfirmDialogProvider />
-          {session && <Header />}
+          {session && <Header user={session.user} />}
           {children}
           {session && <Footer />}
         </ReactQueryProvider>

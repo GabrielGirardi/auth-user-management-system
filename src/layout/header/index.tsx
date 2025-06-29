@@ -1,11 +1,16 @@
-import { getSession } from "@/lib/auth";
 import DesktopHeader from "./components/desktop-header";
 import MobileHeader from "./components/mobile-header";
 
-export default async function Header() {
-  const session = await getSession();
-  const user = session.user;
+type HeaderProps = {
+  user: {
+    name: string;
+    id: string;
+    role: "ADMIN" | "VIEWER";
+    validUntil?: Date | null;
+  };
+}
 
+export default async function Header({ user }: HeaderProps) {
   return (
     <>
       <div className="hidden md:block">

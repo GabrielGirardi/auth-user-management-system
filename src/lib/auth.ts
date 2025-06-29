@@ -13,6 +13,7 @@ const secret = new TextEncoder().encode(jwtSecret);
 
 interface Payload extends Record<string, unknown> {
   user: {
+    name: string;
     id: string;
     role: Role;
     validUntil?: Date | null;
