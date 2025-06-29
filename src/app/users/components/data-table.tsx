@@ -4,7 +4,7 @@ import * as React from "react";
 import { z } from "zod";
 import { CSS } from "@dnd-kit/utilities";
 
-import { deletePerson, changePersonStatus } from "@/lib/api/person";
+import { deleteUser, changeUserStatus } from "@/lib/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
@@ -42,9 +42,9 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import PersonForm from "./form";
+import UserForm from "./form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,15 +103,16 @@ import {
 export const schema = z.object({
   id: z.string(),
   name: z.string(),
-  cpf: z.string(),
-  birthDate: z.string(),
+  email: z.string().email(),
   isActive: z.boolean(),
   createdAt: z.string(),
-  user: z.object({
+  validUntil: z.string().optional(),
+  person: z.object({
     id: z.string(),
     name: z.string(),
-    email: z.string().email(),
-  }).optional(),
+    cpf: z.string().length(11),
+    birthDate: z.string().datetime({ offset: true }),
+  }),
 });
 
 function DragHandle({ id }: { id: string }) {
@@ -133,7 +134,7 @@ function DragHandle({ id }: { id: string }) {
   )
 }
 
-type PersonActionsProps = {
+type UserActionsProps = {
   row: Row<z.infer<typeof schema>>;
   onRefresh: () => void;
 }
@@ -143,23 +144,23 @@ type StatusPayload = {
   status: boolean;
 }
 
-function PersonActions({ row, onRefresh }: PersonActionsProps) {
+function UserActions({ row, onRefresh }: UserActionsProps) {
   const confirmDialog = useConfirmDialog();
   const { mutate: mutateDelete } = useMutation({
-    mutationFn: deletePerson,
+    mutationFn: deleteUser,
     onSuccess: () => {
-      toast.success("Pessoas removida com sucesso!");
+      toast.success("Usuário removido com sucesso!");
       onRefresh?.();
     },
     onError: () => {
-      toast.error("Erro ao remover a pessoa!");
+      toast.error("Erro ao remover usuário!");
     },
   });
 
   const handleDelete = async () => {
     const confirmed = await confirmDialog({
       title: "Confirmar exclusão?",
-      description: "Esta ação excluirá a pessoa permanentemente.",
+      description: "Esta ação excluirá o usuário permanentemente.",
       confirmText: "Excluir",
       cancelText: "Cancelar",
     });
@@ -170,13 +171,13 @@ function PersonActions({ row, onRefresh }: PersonActionsProps) {
   }
 
   const { mutate: mutateStatus } = useMutation({
-    mutationFn: ({ id, status }: StatusPayload) => changePersonStatus(id, status),
+    mutationFn: ({ id, status }: StatusPayload) => changeUserStatus(id, status),
     onSuccess: (data, variables) => {
-      toast.success(`Pessoa ${variables.status ? 'ativada' : 'desativada'} com sucesso!`)
+      toast.success(`Usuário ${variables.status ? 'ativado' : 'desativado'} com sucesso!`)
       onRefresh?.()
     },
     onError: () => {
-      toast.error("Erro ao atualizar o status da pessoas!")
+      toast.error("Erro ao atualizar o status do usuário!")
     },
   })
 
@@ -199,7 +200,7 @@ function PersonActions({ row, onRefresh }: PersonActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
         <DropdownMenuItem onClick={(e) => e.stopPropagation()} asChild>
-          <PersonForm
+          <UserForm
             type="edit"
             initialData={row.original}
             onRefresh={onRefresh}
@@ -233,23 +234,23 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "cpf",
-    header: "CPF",
+    accessorKey: "email",
+    header: "Email",
     enableColumnFilter: true,
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.cpf}
+          {row.original.email}
         </Badge>
       </div>
     ),
   },
   {
-    accessorKey: "birthDate",
-    header: "Data de Nascimento",
+    accessorKey: "validUntil",
+    header: "Válido até",
     enableColumnFilter: true,
     cell: ({ row }) => {
-      const date = new Date(row.original.birthDate);
+      const date = new Date(row.original.validUntil);
       const formatted = new Intl.DateTimeFormat("pt-BR", {
         timeZone: "UTC",
         day: "2-digit",
@@ -302,7 +303,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     id: "actions",
     cell: ({ row, table }) => (
-      <PersonActions
+      <UserActions
         row={row}
         // @ts-expect-error | use columnDef to get name
         onRefresh={table.options.meta?.onRefresh || []}
@@ -477,7 +478,7 @@ export function DataTable({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-            <PersonForm type="create" onRefresh={onRefresh} />
+            <UserForm type="create" onRefresh={onRefresh} />
           </div>
         </div>
       </div>
@@ -645,7 +646,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>Visualização da pessoa</DrawerTitle>
+          <DrawerTitle>Visualização do usuário</DrawerTitle>
           <DrawerDescription>
             Visualizando dados de {item.name}
           </DrawerDescription>
@@ -656,10 +657,14 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Label htmlFor="header">Nome</Label>
               <Input id="name" disabled defaultValue={item.name} />
             </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" disabled defaultValue={item.email} />
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="birthDate">Data de nascimento</Label>
-                <Input id="birthDate" type="date" disabled defaultValue={item.birthDate.split('T')[0]} />
+                <Label htmlFor="validUntil">Válido até</Label>
+                <Input id="validUntil" type="date" disabled defaultValue={item.validUntil.split('T')[0]} />
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="status">Status</Label>

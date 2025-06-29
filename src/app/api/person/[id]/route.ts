@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+
 import { getRouteParam } from "@/lib/utils/url";
+import { canAccess } from "@/lib/permissions";
+import { getSession } from "@/lib/auth";
 
 /**
  * Manipulação de rotas dinâmicas para pessoas (people) com operações CRUD.
@@ -19,8 +22,12 @@ const prisma = new PrismaClient();
  * @constructor
  */
 export async function PUT(request: NextRequest) {
-  const id = getRouteParam(request);
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "delete")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
 
+  const id = getRouteParam(request);
   if (!id) {
     return NextResponse.json({ message: "ID ausente na URL" }, { status: 400 });
   }
@@ -43,8 +50,12 @@ export async function PUT(request: NextRequest) {
  * @constructor
  */
 export async function DELETE(request: NextRequest) {
-  const id = getRouteParam(request);
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "delete")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
 
+  const id = getRouteParam(request);
   if (!id) {
     return NextResponse.json({ message: "ID ausente na URL" }, { status: 400 });
   }
@@ -64,8 +75,12 @@ export async function DELETE(request: NextRequest) {
  * @constructor
  */
 export async function PATCH(request: NextRequest) {
-  const id = getRouteParam(request);
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "delete")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
 
+  const id = getRouteParam(request);
   if (!id) {
     return NextResponse.json({ message: "ID ausente na URL" }, { status: 400 });
   }

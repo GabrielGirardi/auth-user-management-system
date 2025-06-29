@@ -15,9 +15,7 @@ async function main() {
       email: "admin@teste.com.br",
       name: "Administrador",
       password: hashedPassword,
-      cpf: "123.456.789-01",
       role: Role.ADMIN,
-      birthDate: new Date("2000-01-01"),
       isActive: true,
     },
   });

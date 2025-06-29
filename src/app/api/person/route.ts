@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
+import { canAccess } from "@/lib/permissions";
+import { getSession } from "@/lib/auth";
+
 /**
  * Manipulação de rotas para a tabela de pessoas (people) com operações CRUD.
  *
@@ -28,6 +31,11 @@ export async function GET() {
  * @returns Pessoa criada em formato JSON.
  */
 export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "delete")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
+
   const body = await request.json();
   const { name, cpf, birthDate, isActive } = body;
   const newPeson = await prisma.person.create({

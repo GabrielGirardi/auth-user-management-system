@@ -1,4 +1,5 @@
 import AuthGuard from "@/components/auth/auth-guard";
+import { getDashboardData } from "@/lib/dashboard";
 
 import {
   Card,
@@ -8,7 +9,17 @@ import {
   CardTitle
 } from "@/components/ui/card";
 
-export default function Dashboard() {
+interface DashboardData {
+  totalPeople: number;
+  totalUsers: number;
+}
+
+export default async function Dashboard() {
+  const {
+    totalPeople,
+    totalUsers
+  }: DashboardData = await getDashboardData()
+
   return (
     <AuthGuard>
       <div className="container mx-auto md:py-8 text-gray-500 p-4 md:p-0">
@@ -24,7 +35,9 @@ export default function Dashboard() {
               <CardDescription>Total de pessoas cadastradas no sistema</CardDescription>
             </CardHeader>
             <CardContent>
-              <h3 className="text-4xl font-bold">2</h3>
+              <h3 className="text-4xl font-bold">
+                { totalPeople }
+              </h3>
             </CardContent>
           </Card>
           <Card className="shadow-sm border-none">
@@ -33,7 +46,9 @@ export default function Dashboard() {
               <CardDescription>Total de usuários cadastrados no sistema</CardDescription>
             </CardHeader>
             <CardContent>
-              <h3 className="text-4xl font-bold">2</h3>
+              <h3 className="text-4xl font-bold">
+                { totalUsers }
+              </h3>
             </CardContent>
           </Card>
         </div>

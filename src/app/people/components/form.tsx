@@ -10,12 +10,6 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Dialog,
   DialogClose,
@@ -28,7 +22,6 @@ import {
 } from "@/components/ui/dialog";
 
 import {
-  ChevronDownIcon,
   Plus,
   User,
   CreditCard,

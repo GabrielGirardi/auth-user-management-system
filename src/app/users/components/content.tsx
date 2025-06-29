@@ -1,15 +1,15 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query";
-import { getPeople } from "@/lib/api/person";
+import { getUsers } from "@/lib/api/user";
 
 import { DataTable } from "./data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function PeopleContent() {
+export default function UsersContent() {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['person'],
-    queryFn: getPeople,
+    queryKey: ['user'],
+    queryFn: getUsers,
   })
 
   return (
@@ -30,7 +30,7 @@ export default function PeopleContent() {
           </div>
         </div>
       ) : error ? (
-        <div className="text-red-500">Erro ao carregar as pessoas</div>
+        <div className="text-red-500">Erro ao carregar os usuários</div>
       ) : (
         <DataTable data={data} onRefresh={refetch} />
       )}

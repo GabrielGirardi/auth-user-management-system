@@ -1,5 +1,5 @@
 import AuthGuard from "@/components/auth/auth-guard";
-// import UsersContent from "./components/content";
+import UsersContent from "./components/content";
 
 export default function UsersPage() {
   return (
@@ -10,7 +10,7 @@ export default function UsersPage() {
             <h1 className="text-lg font-bold">Usuários</h1>
           </div>
         </div>
-        {/*<UsersContent />*/}
+        <UsersContent />
       </div>
     </AuthGuard>
   )
