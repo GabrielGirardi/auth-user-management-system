@@ -30,6 +30,21 @@ model User {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   validUntil DateTime? @default(dbgenerated("(now() + interval '1 year')"))
+  person     Person?   @relation(fields: [personId], references: [id])
+  personId   String?   @unique
 
   @@map("users")
+}
+
+model Person {
+  id        String   @id @default(cuid())
+  name      String
+  cpf       String   @unique
+  birthDate DateTime @db.Date
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?
+
+  @@map("people")
 }
