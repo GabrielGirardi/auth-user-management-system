@@ -23,12 +23,15 @@ export default async function middleware(req: NextRequest) {
   let session = null;
   let isExpired = false;
 
-  try {
-    session = await decrypt(cookie as string);
-    if (cookie) isExpired = isTokenExpired(cookie);
-  } catch (e) {
-    console.error("Erro ao decifrar token:", e);
-    isExpired = true;
+
+  if (cookie) {
+    try {
+      session = await decrypt(cookie as string);
+      if (cookie) isExpired = isTokenExpired(cookie);
+    } catch (e) {
+      console.error("Erro ao decifrar token:", e);
+      isExpired = true;
+    }
   }
 
   if (isProtectedRoute && (!session?.user || isExpired)) {
