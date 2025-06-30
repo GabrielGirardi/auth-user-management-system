@@ -44,10 +44,14 @@ DATABASE_URL="postgresql://postgres:postgres@db:5432/auth_user_sys"
 
 Verifique o dockerfile
 ```
+# Dockerfile
 FROM node:22.14-alpine
 
 WORKDIR /app
+
 COPY . .
+
+RUN cp example.env .env
 RUN npm install
 RUN npm run build
 
@@ -64,13 +68,14 @@ Crie um arquivo entrypoint.sh na raiz do projeto caso não existir com:
 ```
 #!/bin/sh
 
-# Aguarda o Prisma gerar o cliente e aplicar as migrations
-echo "⏳ Iniciando Prisma..."
+# Aguarda o banco estar acessível
+echo "⏳ Aguardando o banco ficar disponível..."
 npx prisma generate
 npx prisma migrate deploy
+npm run db:seed
 
-# Inicia o servidor
-echo "🚀 Inicializando servidor..."
+# Inicia o app
+echo "🚀 Inicializando o servidor..."
 npm run start
 ```
 
