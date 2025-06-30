@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm-dialog";
-import { ReactQueryProvider } from "@/app/react-query-provider";
+import { ReactQueryProvider } from "@/providers/react-query";
+import { ThemeProvider } from "@/providers/theme";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -38,10 +39,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <Toaster />
-          <ConfirmDialogProvider />
-          {session && <Header user={session.user} />}
-          {children}
+          <ThemeProvider>
+            <Toaster />
+            <ConfirmDialogProvider />
+            {session && <Header user={session.user} />}
+            {children}
+          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>

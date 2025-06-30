@@ -4,6 +4,7 @@ import * as React from "react";
 import { z } from "zod";
 import { CSS } from "@dnd-kit/utilities";
 
+import { formatCPF } from "@/helper/formatter";
 import { deletePerson, changePersonStatus } from "@/lib/api/person";
 import { useMutation } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -239,7 +240,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.cpf}
+          {formatCPF(row.original.cpf)}
         </Badge>
       </div>
     ),
@@ -656,18 +657,22 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Label htmlFor="header">Nome</Label>
               <Input id="name" disabled defaultValue={item.name} />
             </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="cpf">CPF</Label>
+              <Input id="cpf" disabled defaultValue={formatCPF(item.cpf)} />
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="birthDate">Data de nascimento</Label>
                 <Input id="birthDate" type="date" disabled defaultValue={item.birthDate.split('T')[0]} />
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
-                <Input id="status" disabled defaultValue={item.isActive ? 'Ativo' : 'Inativo'} />
-              </div>
-              <div className="flex flex-col gap-3">
                 <Label htmlFor="location">Criado em</Label>
                 <Input id="location" type="date" disabled defaultValue={item.createdAt.split('T')[0]} />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="status">Status</Label>
+                <Input id="status" disabled defaultValue={item.isActive ? 'Ativo' : 'Inativo'} />
               </div>
             </div>
           </form>

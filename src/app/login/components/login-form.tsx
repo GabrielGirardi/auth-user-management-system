@@ -40,7 +40,7 @@ export function LoginForm() {
   }
 
   return (
-    <form className="space-y-4" action={handleSubmit}>
+    <form className="relative space-y-4" action={handleSubmit}>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input id="email" name="email" type="email" required placeholder="Insira seu E-mail" />
@@ -57,13 +57,13 @@ export function LoginForm() {
           />
           <div
             onClick={handleTogglePasswordVisibility}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-100 border h-full w-[40px] flex items-center justify-center rounded-r-md cursor-pointer"
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-muted border h-full w-[40px] flex items-center justify-center rounded-r-md cursor-pointer"
           >
             {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
           </div>
         </div>
       </div>
-      <Button type="submit" className="w-full bg-blue-900 hover:bg-blue-800" disabled={isLoading}>
+      <Button type="submit" className="w-full dark:text-gray-200 bg-blue-900 hover:bg-blue-800 cursor-pointer" disabled={isLoading}>
         Entrar
       </Button>
     </form>

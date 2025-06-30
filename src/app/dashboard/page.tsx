@@ -25,7 +25,7 @@ export default async function Dashboard() {
       <div className="container mx-auto md:py-8 text-gray-500 p-4 md:p-0">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-lg font-bold">Dashboard</h1>
+            <h1 className="text-lg font-bold dark:text-gray-200">Dashboard</h1>
           </div>
         </div>
         <div className="grid gap-6 md:grid-cols-2">

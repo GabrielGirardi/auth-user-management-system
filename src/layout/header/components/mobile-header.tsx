@@ -42,7 +42,7 @@ export default function MobileHeader({ user }: MobileHeaderProps) {
   }
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white text-gray-500 w-full border-b shadow-xs">
+    <header className="flex items-center justify-between p-4 text-gray-500 w-full border-b shadow-xs">
       <div className="flex items-center space-x-3">
         <Image className="object-fit-contain" src="/logo-menu.png" alt="Logo" width={24} height={24} />
       </div>

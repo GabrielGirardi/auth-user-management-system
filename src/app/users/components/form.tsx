@@ -176,10 +176,10 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
 
       <DialogContent className="!max-w-4xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold text-gray-900">
+          <DialogTitle className="text-2xl font-semibold text-gray-900 dark:text-gray-200">
             {isEditing ? "Editar Usuário" : "Adicionar Usuário"}
           </DialogTitle>
-          <DialogDescription className="text-gray-600">
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {isEditing ? "Atualize os detalhes do usuário abaixo." : "Preencha os detalhes para criar um novo usuário."}
           </DialogDescription>
         </DialogHeader>
@@ -188,8 +188,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
           <div className="py-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <User className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <User className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Nome de Usuário
                 </Label>
                 <Input
@@ -203,8 +203,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Email
                 </Label>
                 <Input
@@ -219,8 +219,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   {isEditing ? "Nova Senha (opcional)" : "Senha"}
                 </Label>
                 <div className="relative">
@@ -235,7 +235,7 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
                   />
                   <div
                     onClick={handleTogglePasswordVisibility}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-100 border h-full w-[40px] flex items-center justify-center rounded-r-md cursor-pointer"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 bg-muted border dark:border-gray-200 h-full w-[40px] flex items-center justify-center rounded-r-md cursor-pointer"
                   >
                     {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
                   </div>
@@ -243,8 +243,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="role" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="role" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Perfil de Acesso
                 </Label>
                 <Select value={role} onValueChange={(value: "ADMIN" | "VIEWER") => setRole(value)}>
@@ -272,8 +272,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="person" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Users className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="person" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <Users className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Pessoa Vinculada
                 </Label>
                 <Select value={person} onValueChange={setPerson}>
@@ -294,8 +294,8 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="validUntil" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-gray-500" />
+                <Label htmlFor="validUntil" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <CalendarIcon className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Válido Até (opcional)
                 </Label>
                 <Input
@@ -308,18 +308,18 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Settings className="w-4 h-4 text-gray-500" />
+                <Label className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                  <Settings className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                   Status do Usuário
                 </Label>
-                <div className="flex items-center space-x-3 h-11 px-3 border border-gray-300 rounded-md bg-gray-50">
+                <div className="flex items-center space-x-3 h-11 px-3 border border-gray-300 rounded-md bg-muted">
                   <Switch
                     id="status"
                     checked={isActive}
                     onCheckedChange={(checked) => setIsActive(!!checked)}
                     className="data-[state=checked]:bg-green-600"
                   />
-                  <Label htmlFor="status" className="text-sm text-gray-700 cursor-pointer">
+                  <Label htmlFor="status" className="text-sm text-gray-700 dark:text-gray-200 cursor-pointer">
                     {isActive ? "Usuário ativo" : "Usuário inativo"}
                   </Label>
                   <div
@@ -339,7 +339,7 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
               <Button
                 type="button"
                 variant="outline"
-                className="w-full sm:w-auto h-11 border-gray-300 hover:bg-gray-50 text-gray-700 bg-transparent"
+                className="w-full sm:w-auto h-11 border-gray-300 hover:bg-gray-50 text-gray-700 dark:text-gray-200 cursor-pointer bg-transparent"
               >
                 <X className="w-4 h-4 mr-2" />
                 Cancelar
@@ -348,7 +348,7 @@ export default function UserForm({ initialData, type, onRefresh }: UserFormProps
             <Button
               type="submit"
               disabled={mutation.isPending}
-              className="w-full sm:w-auto h-11 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+              className="w-full sm:w-auto h-11 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer disabled:opacity-50"
             >
               <Save className="w-4 h-4 mr-2" />
               {mutation.isPending ? "Salvando..." : isEditing ? "Atualizar" : "Salvar"}

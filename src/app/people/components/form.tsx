@@ -129,11 +129,11 @@ export default function PersonForm({
         )}
       </DialogTrigger>
       <DialogContent className="!max-w-4xl">
-        <DialogHeader className="space-y-3">
-          <DialogTitle className="text-2xl font-semibold text-gray-900">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-semibold text-gray-900 dark:text-gray-200">
             {isEditing ? "Editar Pessoa" : "Adicionar Pessoa"}
           </DialogTitle>
-          <DialogDescription className="text-gray-600">
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {isEditing ? "Atualize os detalhes do cadastro abaixo." : "Preencha os detalhes para criar um novo cadastro."}
           </DialogDescription>
         </DialogHeader>
@@ -141,8 +141,8 @@ export default function PersonForm({
         <div className="py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <User className="w-4 h-4 text-gray-500" />
+              <Label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                <User className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                 Nome Completo
               </Label>
               <Input
@@ -156,8 +156,8 @@ export default function PersonForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cpf" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-gray-500" />
+              <Label htmlFor="cpf" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                 CPF
               </Label>
               <Input
@@ -172,8 +172,8 @@ export default function PersonForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="birthDate" className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <CalendarIcon className="w-4 h-4 text-gray-500" />
+              <Label htmlFor="birthDate" className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                <CalendarIcon className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                 Data de Nascimento
               </Label>
               <Input
@@ -186,18 +186,18 @@ export default function PersonForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                <Settings className="w-4 h-4 text-gray-500" />
+              <Label className="text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                <Settings className="w-4 h-4 text-gray-500 dark:text-gray-200" />
                 Status do Cadastro
               </Label>
-              <div className="flex items-center space-x-3 h-11 px-3 border border-gray-300 rounded-md bg-gray-50">
+              <div className="flex items-center space-x-3 h-11 px-3 border border-gray-300 rounded-md bg-muted">
                 <Switch
                   id="status"
                   checked={isActive}
                   onCheckedChange={(checked) => setIsActive(!!checked)}
                   className="data-[state=checked]:bg-green-600"
                 />
-                <Label htmlFor="status" className="text-sm text-gray-700 cursor-pointer">
+                <Label htmlFor="status" className="text-sm text-gray-700 dark:text-gray-200 cursor-pointer">
                   {isActive ? "Cadastro ativo" : "Cadastro inativo"}
                 </Label>
                 <div
@@ -216,7 +216,7 @@ export default function PersonForm({
           <DialogClose asChild>
             <Button
               variant="outline"
-              className="w-full sm:w-auto h-11 border-gray-300 hover:bg-gray-50 text-gray-700 bg-transparent"
+              className="w-full sm:w-auto h-11 border-gray-300 cursor-pointer hover:bg-gray-50 text-gray-700 dark:text-gray-200 bg-transparent"
             >
               <X className="w-4 h-4 mr-2" />
               Cancelar
@@ -225,7 +225,7 @@ export default function PersonForm({
           <Button
             type="submit"
             onClick={handleSubmit}
-            className="w-full sm:w-auto h-11 bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full sm:w-auto h-11 bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
           >
             <Save className="w-4 h-4 mr-2" />
             {isEditing ? "Atualizar" : "Salvar"}

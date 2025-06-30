@@ -677,12 +677,16 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="validUntil">Válido até</Label>
-                <Input id="validUntil" type="date" disabled defaultValue={item.validUntil.split('T')[0]} />
-              </div>
-              <div className="flex flex-col gap-3">
                 <Label htmlFor="status">Status</Label>
                 <Input id="status" disabled defaultValue={item.isActive ? 'Ativo' : 'Inativo'} />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="role">Cargo</Label>
+                <Input id="role" disabled defaultValue={item.role} />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="validUntil">Válido até</Label>
+                <Input id="validUntil" type="date" disabled defaultValue={item.validUntil.split('T')[0]} />
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="location">Criado em</Label>

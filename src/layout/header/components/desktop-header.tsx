@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { logoutAction } from "@/app/actions/auth";
 
 import {
@@ -18,7 +21,9 @@ import {
 
 import {
   User,
-  LogOut
+  LogOut,
+  Moon,
+  Sun
 } from "lucide-react";
 
 interface DesktopHeaderProps {
@@ -29,8 +34,10 @@ interface DesktopHeaderProps {
 }
 
 export default function DesktopHeader({ user }: DesktopHeaderProps) {
+  const { theme, setTheme } = useTheme();
+
   return (
-    <header className="flex items-center justify-between p-4 bg-white text-gray-500 w-full border-b shadow-xs">
+    <header className="flex items-center justify-between p-4 text-gray-500 w-full border-b shadow-xs">
       <div className="mx-auto flex items-center justify-between space-x-4 md:w-[95%] 2xl:w-[83%]">
         <Image
           className="object-fit-contain"
@@ -43,17 +50,17 @@ export default function DesktopHeader({ user }: DesktopHeaderProps) {
         <nav>
           <ul className="flex space-x-12">
             <li>
-              <a href="/dashboard" className="hover:text-gray-700 transition-colors">
+              <a href="/dashboard" className="hover:text-gray-700 dark:text-gray-200 transition-colors">
                 Dashboard
               </a>
             </li>
             <li>
-              <a href="/people" className="hover:text-gray-700 transition-colors">
+              <a href="/people" className="hover:text-gray-700 dark:text-gray-200 transition-colors">
                 Pessoas
               </a>
             </li>
             <li>
-              <a href="/users" className="hover:text-gray-700 transition-colors">
+              <a href="/users" className="hover:text-gray-700 dark:text-gray-200 transition-colors">
                 Usuários
               </a>
             </li>
@@ -63,7 +70,7 @@ export default function DesktopHeader({ user }: DesktopHeaderProps) {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-4 cursor-pointer px-4 border-l border-r hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-4 cursor-pointer px-4 border-l border-r hover:bg-muted transition-colors dark:text-gray-200">
                 <Avatar>
                   <AvatarImage src="https://cdn-icons-png.flaticon.com/512/9131/9131478.png" />
                   <AvatarFallback>Adm</AvatarFallback>
@@ -75,16 +82,23 @@ export default function DesktopHeader({ user }: DesktopHeaderProps) {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
-              <DropdownMenuLabel className="flex items-center justify-between text-gray-500">
-                Minha conta <User className="w-4 h-4 text-gray-500" />
+              <DropdownMenuLabel className="flex items-center justify-between text-gray-500 dark:text-gray-200">
+                Minha conta <User className="w-4 h-4 text-gray-500 dark:text-gray-200" />
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem
-                  className="text-gray-500 hover:text-gray-400 transition duration-500 cursor-pointer"
+                  className="text-gray-500 hover:text-gray-400 dark:text-gray-200 transition duration-500 cursor-pointer"
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                 >
+                  {theme === 'dark' ? <Sun className="text-yellow-400" /> : <Moon className="text-gray-800" />}
+                  Tema
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-gray-500 hover:text-gray-400 dark:text-gray-200 transition duration-500 cursor-pointer"
                   onClick={logoutAction}
                 >
-                  <LogOut />
+                  <LogOut className="text-red-500" />
                   Sair
                 </DropdownMenuItem>
               </DropdownMenuGroup>
