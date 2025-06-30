@@ -20,6 +20,11 @@ const prisma = new PrismaClient();
  * @returns Usuários em formato JSON.
  */
 export async function GET() {
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "view")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
+
   const users = await prisma.user.findMany({
     where: {
       email: {
@@ -40,7 +45,7 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session || !canAccess(session.user.role, "delete")) {
+  if (!session || !canAccess(session.user.role, "create")) {
     return new Response("Acesso negado", { status: 403 });
   }
 

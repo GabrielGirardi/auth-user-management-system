@@ -23,7 +23,7 @@ const prisma = new PrismaClient();
  */
 export async function PUT(request: NextRequest) {
   const session = await getSession();
-  if (!session || !canAccess(session.user.role, "delete")) {
+  if (!session || !canAccess(session.user.role, "edit")) {
     return new Response("Acesso negado", { status: 403 });
   }
 
@@ -76,7 +76,7 @@ export async function DELETE(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   const session = await getSession();
-  if (!session || !canAccess(session.user.role, "delete")) {
+  if (!session || !canAccess(session.user.role, "edit")) {
     return new Response("Acesso negado", { status: 403 });
   }
 

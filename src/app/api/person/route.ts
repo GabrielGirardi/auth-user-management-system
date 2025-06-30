@@ -18,6 +18,11 @@ const prisma = new PrismaClient();
  * @returns Pessoas em formato JSON.
  */
 export async function GET() {
+  const session = await getSession();
+  if (!session || !canAccess(session.user.role, "view")) {
+    return new Response("Acesso negado", { status: 403 });
+  }
+
   const people = await prisma.person.findMany();
   return NextResponse.json(people);
 }
@@ -32,7 +37,7 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session || !canAccess(session.user.role, "delete")) {
+  if (!session || !canAccess(session.user.role, "create")) {
     return new Response("Acesso negado", { status: 403 });
   }
 
