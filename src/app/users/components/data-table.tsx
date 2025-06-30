@@ -447,13 +447,30 @@ export function DataTable({
                 )
               }
             >
-              <SelectTrigger className="h-8 w-36">
+              <SelectTrigger className="h-8 w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="all">Todos (Status)</SelectItem>
                 <SelectItem value="true">Ativo</SelectItem>
                 <SelectItem value="false">Inativo</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={(table.getColumn("role")?.getFilterValue() as string) ?? "all"}
+              onValueChange={(value) =>
+                table.getColumn("role")?.setFilterValue(
+                  value === "all" ? undefined : value
+                )
+              }
+            >
+              <SelectTrigger className="h-8 w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos (Cargos)</SelectItem>
+                <SelectItem value="ADMIN">Admin</SelectItem>
+                <SelectItem value="VIEWER">Visualizador</SelectItem>
               </SelectContent>
             </Select>
           </div>

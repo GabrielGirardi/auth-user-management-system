@@ -433,11 +433,11 @@ export function DataTable({
                 )
               }
             >
-              <SelectTrigger className="h-8 w-36">
+              <SelectTrigger className="h-8 w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="all">Todos (Status)</SelectItem>
                 <SelectItem value="true">Ativo</SelectItem>
                 <SelectItem value="false">Inativo</SelectItem>
               </SelectContent>
