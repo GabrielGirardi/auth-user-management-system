@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧑‍💼 Auth User Management System
 
-## Getting Started
+Sistema base para controle e gerenciamento de usuários, incluindo autenticação, permissões por cargo, CRUD de pessoas vinculadas a usuários e suporte a tema escuro 🌙.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
+
+- [Next.js 15+ (App Router)](https://nextjs.org/)
+- [Prisma ORM](https://www.prisma.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Query](https://tanstack.com/query/latest)
+- [next-themes](https://github.com/pacocoursey/next-themes) (modo escuro)
+- [Lucide Icons](https://lucide.dev/)
+
+---
+
+## 📦 Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/seu-usuario/auth-user-management-system.git
+cd auth-user-management-system
+npm install
+```
+Configure o banco de dados no arquivo .env seguindo o modelo do example.env
+
+Rodar as migration e o seed
+```bash
+npm run db:migrate
+npm run db:seed
+npm run db:generate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Execução com Docker
+O projeto inclui suporte completo a Docker e Docker Compose. Isso permite subir tanto a aplicação quanto o banco PostgreSQL em containers, com persistência e migração automática de banco.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 🐘 Banco de Dados + App com Docker Compose
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Crie um arquivo .env baseado no example.env com a URL do banco apontando para o container:
+```
+DATABASE_URL="postgresql://postgres:postgres@db:5432/auth_user_sys"
+```
 
-## Learn More
+2. 📁 Dockerfile
 
-To learn more about Next.js, take a look at the following resources:
+Verifique o dockerfile
+```
+FROM node:22.14-alpine
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
 
-## Deploy on Vercel
+EXPOSE 3000
+CMD ["./entrypoint.sh"]
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. ▶️ Entrypoint de inicialização
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Crie um arquivo entrypoint.sh na raiz do projeto caso não existir com:
+```
+#!/bin/sh
+
+# Aguarda o Prisma gerar o cliente e aplicar as migrations
+echo "⏳ Iniciando Prisma..."
+npx prisma generate
+npx prisma migrate deploy
+
+# Inicia o servidor
+echo "🚀 Inicializando servidor..."
+npm run start
+```
+
+então de a permissão:
+```bash
+chmod +x entrypoint.sh
+```
+
+4. 🧱 docker-compose.yml
+```
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/auth_user_sys
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: auth_user_sys
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+5. ✅ Rodando o projeto com Docker
+```bash
+docker-compose up --build
+```
+
+## 🧠 Funcionalidades
+
+- ✅ Cadastro e autenticação de usuários
+- 👨‍👩‍👧 Gerenciamento de pessoas físicas vinculadas a usuários
+- 🛡️ Permissões baseadas em cargo (ADMIN e VIEWER)
+- 🌗 Suporte a tema claro/escuro
+- 🚫 Restrição de deleção se a pessoa estiver vinculada a um usuário
+- 📊 Dashboard com contagem de usuários ativos e visíveis
+- 📱 Design responsivo com drawer para visualização de dados no mobile (Basta clicar na primeira coluna nos registros da tabela)
+
+## 👥 Permissões por Cargo
+
+Cargo	  Visualizar	Criar/Editar	Excluir
+VIEWER	✅	        ❌	          ❌
+ADMIN	  ✅	        ✅	          ✅
+
+## 💡 Comandos úteis
+
+npm run dev       # Inicia o servidor em modo dev
+npm run build     # Cria a versão de produção
+npx prisma studio # UI para o banco de dados
+
+---
+
+## 🧾 Licença
+
+Este projeto é licenciado sob a MIT License
+
+Feito com ♥ por Gabriel Girardi.
